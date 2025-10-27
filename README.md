@@ -35,6 +35,10 @@ A linear regression model with an **interaction term** is used to test whether p
 4. **Diagnostics:** Residual plots, Breusch–Pagan test, and multicollinearity (VIF).  
 5. **Interpretation:** The interaction term indicates whether poverty strengthens or weakens the link between test positivity and deaths.
 
+
+
+![VS Code Screenshot](r_screenshot.png)
+
 ---
 
 ## 🧠 Key Findings

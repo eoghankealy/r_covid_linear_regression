@@ -25,17 +25,24 @@ A linear regression model with an **interaction term** is used to test whether p
 ---
 
 ## ⚙️ Methods
-1. **Data Cleaning:** Handle missing values and convert variables to numeric form.  
-2. **Exploratory Analysis:** Summarize variables and visualize relationships.  
+
+1. **Data Cleaning:**  
+   Missing values were handled, variable names were standardized, and relevant columns were converted to numeric format for analysis.
+
+2. **Exploratory Analysis:**  
+   Summary statistics were produced to understand data distributions, and relationships between key COVID-19 indicators were explored through visualizations.
+
 3. **Linear Regression Model:**  
+   A linear regression model was fitted to examine the relationship between COVID-19 deaths and test positivity, including the moderating effect of poverty:
    ```r
    lm(new_deaths ~ positive_rate * extreme_poverty, data = nphet_data_merged)
    ```
-   This tests both the main effects and their interaction.  
-4. **Diagnostics:** Residual plots, Breusch–Pagan test, and multicollinearity (VIF).  
-5. **Interpretation:** The interaction term indicates whether poverty strengthens or weakens the link between test positivity and deaths.
+   This model tests both the main effects and their interaction to assess whether poverty modifies the association between test positivity and mortality.
 
-![VS Code Screenshot](r_screenshot_1.png)
+4. **Interpretation:**  
+   The model output (coefficients and p-values) was interpreted to understand how test positivity and poverty jointly influence COVID-19 mortality rates.
+
+
 
 ---
 

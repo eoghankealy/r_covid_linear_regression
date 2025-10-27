@@ -1,0 +1,203 @@
+---
+title: "Analysing how the positivity rate and the extreme poverty rate affect the death rate of Covid 19"
+author: "Eoghan Kealy"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+# options ------------------------------------------------------------
+knitr::opts_chunk$set(echo = FALSE,
+                      message = FALSE,
+                      warning = FALSE,
+                      error = FALSE)
+# libraries --------------------------------------------------------------
+library(tidyverse)
+library(kableExtra)
+library(report)
+library(knitr)
+library(xtable)
+
+# data --------------------------------------------------------------------
+nphet_data_merged <- read.csv("~/Desktop/january courses/DCU/MT5000/stats/stats assignment/nphet_data_merged.csv",na = "") 
+# na ="" so it knows what the missing values are
+```
+
+
+
+# Abstract
+
+*The positivity rate is one of the best ways we have to understand  to what extent Covid  19 is circulating in a given area. Areas with extreme poverty suffer from a lack of resources to tackle the pandemic. Regression results revealed that the overall model, with the two  predictor variables ,Positivity rate and Extreme poverty rate,  and the third predictor, interaction effect  variable, was significantly predictive of the Death rate of Covid 19. Our findings highlight the importance of the eradication of extreme poverty.*
+
+# Introduction 
+
+This analysis was made using data provided by NPHET to investigate the relationship of the positivity rate and extreme poverty rate on the amount of deaths from Covid 19. It has three main  objectives. The first is to demonstrate that the positivity rate can be used as a good marker of performance  in controlling the pandemic in the absence of sufficient testing and therefore highlight regions which may need help through extra resources. The second is to show  that people who live in extreme poverty are at a higher risk of death from Covid 19 and that more than ever extreme poverty should be eradicated as much as possible. It also aims to show that regions which suffer a lack of resources and/or insufficient political will  to fight the pandemic  combined with high levels of extreme poverty can be hit with a high death toll from  a disastrous combination.
+
+# Literature review
+
+Testing is critical to our understanding of how Covid 19 is spreading and the severity of the pandemic. Even in regions where  financial resources and political will are available problems with supply and logistics  can make it is difficult to carry out sufficient testing. In regions where resources and political will are missing it is even more difficult.  This negatively affects efforts to control the virus. Where sufficient  testing is not available the positivity rate can be a good metric to evaluate the spread of the virus and how well regions are handling it. If the positivity rate is high it is likely the amount of cases recorded is a small fraction of the amount of cases in reality. So in areas where the positivity rate is increasing the virus is spreading more quickly.  According to WHO a positivity rate of 5% or less is an indication the spread is under control (Our world in data 2021).
+Risk factors affecting the severity of the diseases include, obesity, malnutrition older age, diabetes, hypertension, cardiovascular and lung diseases, and immune suppression. Areas where extreme poverty is high do not just suffer from a lack of resources for fighting the pandemic but the general health of the population is worse also. In Latin America, where a rapid nutrition transition has taken place, there are very high rates of obesity and noncommunicable diseases (NCDs) which are the main cause of deaths in the region. NCDs are responsible for 85% of deaths in Chile and 75% in Colombia (two of the countries in our analysis). A large portion of the population lives below the poverty line, with dietary calories from ultra-processed foods making up a considerable portion of daily calories, 28.6% in the case of Chile. Poor access to clean water and inadequate nutrition mean populations in regions like Latin America where there are massive income disparities are vulnerable to contracting more severe forms of Covid 19. Added to this the health systems do not have the resources to tackle the pandemic (Cuevas and Barquera 2020).
+Poverty is not just a problem in the global south , it affects the global north also. A study in Scotland found that people who came from more economically disadvantaged areas had a higher chance of critical care admission due to severity of diseases  and were more likely to die than people who came from affluent areas. Various factors were suggested as the cause of the link between poverty and severity of the disease including poor housing, increased use of public transport, and financial pressures to keep working through the pandemic (University of Edinburgh 2020). 
+Reports in the USA show the ‘outsized toll that Covid-19 is taking in communities of colour, and among under-resourced individuals living in urban areas’ (Holmes Finch and Hernandez Finch 2020). They also highlight that these communities are likely to suffer from more diseases such as diabetes, heart disease, and pulmonary issues, and with a lower levels of education are less likely to be able to work from home, all of which puts them at higher risk from Covid 19(Holmes Finch and Hernandez Finch 2020). Comparing the situation with poverty and influenza,  it found that vaccinations were less available to these communities, as well as less access to high quality healthcare, testing and treatment resources (Holmes Finch and Hernandez Finch 2020).
+It is therefore prudent that we investigate further  the links both  extreme poverty and positivity rate have to increased death rate by Covid 19.
+
+The study examined the following research question :
+
+The affect that the positivity rate , extreme poverty and the interaction of extreme   poverty with the positivity rate  had on the death rate of Covid 19
+
+The following hypothesis were tested:
+
+**(i)**	  *Ha1 : The amount  of the deaths increases  when the positivity rate  increases* 
+  
+  *H01 : The amount of deaths stays the same when the positivity rate increases*
+  
+
+**(ii)**	*Ha2 : The amount  of the Deaths increases  when the extreme poverty rate increases* 
+  
+  *H02 : The amount of deaths stays the same when exteme poverty increases*
+  
+	
+**(iii)**	*Ha3 : The effect of the positivity rate  on deaths  is higher  when the extreme*  
+                       *poverty rate is high than when extreme poverty rate is lower*
+  
+  *H03 : The effect of the positivity rate  on deaths  stays the same   when the extreme  poverty rate is high*    
+     
+
+# Method
+
+A data set provided by NHPET  on the following 9 countries was used; Azerbaijan, Chile, Colombia, Estonia, France, Iceland, Ireland , Jamaica, Suriname. It contained various Covid related data based over a time series including daily positivity rate and also a metadata  set with data such as extreme poverty rate, diabetes prevalence, GDP and population. Jamovi 1.6.18.0  was used to produce descriptive statistics and conduct a multiple variable linear regression.
+
+## Data Analysis
+
+The following variables  were used:
+Outcome (y) :                                                   Predictor (x) :
+Deaths  (0 – inf)                                                1. Positivity rate (0- 100%)
+                                                                            2. extreme poverty rate (0- 100%)  
+                                                                            3. Interaction effect of Positivity rate and Extreme poverty
+
+
+                         
+                         
+
+With the corresponding equation :
+
+ Deaths = B0 + B1 positivity rate + B2 extreme poverty + B3 positivity rate*extreme poverty + e
+
+# Results 
+
+The average amount of daily deaths was 55.2 (SD 140). The average daily positivity rate was 0.0805% (SD 0.0855). The average extreme poverty rate was 1.31% (SD 1.61) see Fig 1.1
+
+```{r}
+nphet_data_merged %>%
+  summarise(
+    n = n(),
+    missing = sum(is.na(new_deaths)),
+    m_deaths = mean(new_deaths, na.rm = TRUE),
+   sd_deaths = sd(new_deaths, na.rm = TRUE)
+    ) %>%
+  kbl(booktabs = TRUE)
+
+ 
+
+```
+
+ Table 1.1 Mean and standard deviation of daily deaths
+
+```{r}
+nphet_data_merged %>%
+  group_by(location)%>%
+  summarise(
+    m_deaths = mean(new_deaths, na.rm = TRUE),
+     sd_deaths = sd(new_deaths, na.rm = TRUE)) %>%
+    kbl(booktabs = TRUE)
+```
+
+Table 1.2 Mean and standard deviation of daily deaths for each country in the analysis
+
+
+### Linear Regression
+
+```{r, results='asis'}
+# asis important to make the text produced look normal 
+lm_model <- lm(formula = new_deaths ~ positive_rate + extreme_poverty + positive_rate : extreme_poverty, data = nphet_data_merged )
+# to make the lm report
+report(lm_model) 
+```
+
+```{r,fig.width= 3, fig.height= 1.5,  fig.show="hold", out.width="50%"}
+# figures-side, fig.show="hold", out.width="50%" to put figures beside each other on the pdf
+filtered_nphet_data <- filter(nphet_data_merged, !is.na(extreme_poverty_high_low))
+ggplot(filtered_nphet_data, aes(x = extreme_poverty, y = new_deaths)) + 
+  geom_point() +
+  stat_smooth(method = "lm", col = "red") +
+  theme_bw()
+
+filtered_nphet_data2 <- filter(nphet_data_merged, !is.na(positive_rate))
+
+ggplot(filtered_nphet_data, aes(x = positive_rate, y = new_deaths)) + 
+  geom_point() +
+  stat_smooth(method = "lm", col = "red") +
+  theme_bw()
+```
+
+Fig 1.1 Estimated marginal means for extreme poverty & deaths    Fig 1.2 Estimated marginal means for positivity rate and deaths
+
+
+# Discussion 
+
+The analysis aimed to understand the relationship that the positivity rate and extreme poverty rate had on deaths from Covid 19. The results show that these predictor variables  are critical factors  in the death rate from Covid 19 with the overall model explaining 74.2% in the variance of deaths from  Covid 19. The model confirms the report from Our World in Data (2021) that the positivity rate can be a good indicator of how out of /under control the pandemic is in a region.  An increase of 1 unit in the positivity rate can lead to an increase of 137 units in deaths and  If there are more deaths we can assume there are more cases. The analysis also confirms  the study in Scotland that people living in extreme poverty are at a higher risk of death from Covid 19 with a 1 unit increase in extreme poverty leading to a 12 unit increase in deaths. Finally the model also demonstrates that the interaction effect of positivity rate and extreme poverty is statistically relevant and where there is a high level of extreme poverty the effect of positivity rate on deaths will be greater.
+
+```{r, fig.width= 3, fig.height= 1.5} 
+# figures-side, fig.show="hold", out.width="50%" to put figures beside each other on the pdf
+filtered_nphet_data <- filter(nphet_data_merged, !is.na(extreme_poverty_high_low)) # !is.na to ignore missing values in the variable
+filtered_nphet_data %>%
+  group_by(extreme_poverty_high_low) %>%
+summarise(average_deaths = mean(new_deaths_per_million, na.rm = TRUE)) %>%
+ggplot(mapping = aes(x = extreme_poverty_high_low, y = average_deaths, colour = extreme_poverty_high_low, fill = extreme_poverty_high_low ) ) +
+  geom_col() +
+  labs (
+    x = "extreme poverty rate",
+    y = "average daily deaths"
+  ) + 
+  theme_bw() +
+  #fig uses both fill and colour so to remove legend
+  guides(fill=FALSE, color=FALSE)
+
+
+```
+
+Fig 2.1 Average daily deaths per million with the extreme poverty rate split into high and low groups
+
+
+# Conclusion
+
+Nature journal recently found that in a survey of over 100 immunologists and infectious disease researchers  90% believed that Covid 19 would become endemic. They also expect that even regions which had eliminated the virus would face the threat of continued outbreaks from areas where insufficient vaccination or public health measures had taken place (Torjesen 2021).
+                  The efforts to contain Covid 19 have taken a high toll on the economy.  Lockdowns while necessary, especially when the virus is out of control, mean that massive parts of economy are closed leading to loss of income and employment opportunities  as well as hitting government finances. This affects poorer nations even more as they do not have the funding capability to  offset the negative financial  effects of the pandemic on the population. The negative economic effects mean that more people are at risk of slipping into extreme poverty. ‘An estimated 13m Africans are expected to fall below the poverty line at the end of 2020 in the best‐case scenario with 50m at the worst as a result of Covid‐19’ according to the World Bank(Kharas 2020). The long term scenario  is  bleak, prior to Covid 19  extreme poverty levels had been dropping. Pre Covid 19 the projections were for 2021 to have 7.6% poverty but that is now estimated to be 9.3%,  with half of that increase expected to be permanent (Kharas 2020).More poverty will bring an increased risk of food insecurity, again increasing the prevalence of NCDs such as obesity , malnutrition and diabetes , all high risk factors for Covid 19 , while also putting more strain on health systems (Cuevas and Barquera 2020). There is a real risk of being trapped in a vicious cycle of increasing poverty, and therefore worse Covid 19 outcomes,  if adequate action is not taken.
+The USA has purchased enough vaccines for 3 times its population while at the same time UNICEF reports that 130 countries have not even administered a single vaccination (Guardian 2021). If Covid does become endemic as scientists fear,  it is critical that we take the fight against Covid 19 as a global issue. Allowing Covid to run unchecked through countries who lack resources or political will risks the creation of Covid reservoirs, and increases the possibility for more deadly strains. A single country or region will not benefit fully from vaccination if other countries do not have a similar programme in place. 
+As the analysis has shown the positivity  rate can help identify areas where the spread of the virus is out of control and extra resources should be deployed. If this is not possible through the countries own resources then this should be achieved through international aid.  More than ever we should aim to eliminate extreme poverty as it is not just a humanitarian issue now, areas with more extreme poverty  will not only suffer from more deaths but risk becoming  Covid reservoirs which will affect  us all. 
+
+
+
+ 
+
+
+
+
+# References
+
+Torjesen, I. (18 February 2021) Covid-19 will become endemic but with decreased potency over time, scientists believe,  TheBMJ. Available at: https://doi.org/10.1136/bmj.n494  (Accessed: 29 March 2021)
+
+Cuevas, A & Barquera, S (08 July 2020) COVID‐19, Obesity, and Undernutrition: A Major Challenge for Latin American Countries,  The Obesity Society. Available at: https://doi-org.dcu.idm.oclc.org/10.1002/oby.22961 (Accessed: 29 March 2021)
+
+Holmes Finch, W and Hernández Finch, Maria E.   (15 June 2020) Poverty and Covid-19: Rates of Incidence and Deaths in the United States During the First 10 Weeks of the Pandemic, Frontiers in Sociology. Available at: https://doi.org/10.3389/fsoc.2020.00047 (Accessed: 29 March 2021)
+
+Kharas, H (21 October 2020) COVID‐19, The impact of COVID-19 on global extreme poverty, Brookings. Available at: https://www.brookings.edu/blog/future-development/2020/10/21/the-impact-of-covid-19-on-global-extreme-poverty/ (Accessed: 29 March 2021)
+
+Olla, A. (2021). ‘Welcome to the new colonialism: rich countries sitting on surplus vaccines’, The Guardian,  14 April.  Available: https://www.theguardian.com/commentisfree/2021/apr/14/rich-countries-surplus-covid-vaccines (Accessed 14 April 2021).
+
+Our World in Data( 2021) Coronavirus (COVID-19) Testing,  Our World In Data. Available at: https://ourworldindata.org/coronavirus-testing  (Accessed: 29 March 2021
+
+Policy and Practice (06 September 2020) Africa – Covid‐19 to Sink Millions into Extreme Poverty,  Africa Research Bulletin. Available at: https://doi-org.dcu.idm.oclc.org/10.1111/j.1467-6346.2020.09615.x (Accessed: 29 March 2021)
+
+University of Edinburgh (15 December 2020) Poverty linked to higher risk of COVID-19 death, study suggests, ScienceDaily . https://www.sciencedaily.com/releases/2020/12/201215082056.htm (Accessed: 29 March 2021)
+
+
